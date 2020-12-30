@@ -43,6 +43,7 @@ public class PluginCommands implements CommandExecutor {
     int compassTask = -1;
     int dangerLevelTask = -1;
     public static boolean gameIsRunning = false;
+    public static boolean hitHasRegistered = false;
     boolean compassEnabledInNether;
     private final PluginMain main;
 

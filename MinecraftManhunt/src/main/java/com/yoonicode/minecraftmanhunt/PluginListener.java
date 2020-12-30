@@ -6,9 +6,13 @@ import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Skull;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -24,6 +28,8 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import java.lang.annotation.Target;
 import java.util.List;
+
+import static org.bukkit.Bukkit.getServer;
 
 public class PluginListener implements Listener {
 
@@ -107,6 +113,26 @@ public class PluginListener implements Listener {
     public void onPlayerEnterPortal(PlayerPortalEvent event){
         main.portals.put(event.getPlayer().getName(), event.getFrom());
     }
+
+    @EventHandler
+    public void onPlayerAttacked(EntityDamageByEntityEvent event){
+        if (!PluginCommands.gameIsRunning && main.getConfig().getBoolean("startGameByHit", false)){
+            Entity victim = event.getEntity();
+            Entity attacker = event.getDamager();
+            EntityDamageEvent.DamageCause cause = event.getCause();
+
+            if (attacker.getType() == EntityType.PLAYER && victim.getType() == EntityType.PLAYER
+                    && cause == EntityDamageEvent.DamageCause.ENTITY_ATTACK
+                    && PluginMain.huntersTeam.getEntries().contains(victim.getName())
+                    && PluginMain.runnersTeam.getEntries().contains(attacker.getName())){
+                PluginCommands.hitHasRegistered = true;
+                attacker.getServer().dispatchCommand(getServer().getConsoleSender(), "start");
+
+            }
+
+        }
+    }
+
 
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event){
