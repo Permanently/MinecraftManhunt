@@ -254,6 +254,12 @@ public class PluginCommands implements CommandExecutor {
                 commandSender.sendMessage("Not enough speedrunners to start");
                 return true;
             }
+
+            if (main.getConfig().getBoolean("startGameByHit", false) && !hitHasRegistered) {
+                commandSender.sendMessage("The /start command is disabled. The game will start when a runner hits a hunter.");
+                return true;
+            }
+
             commandSender.sendMessage("Starting game...");
             main.targets.clear();
             int headStartDuration = main.getConfig().getInt("headStartDuration");
