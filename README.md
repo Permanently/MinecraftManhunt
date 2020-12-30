@@ -71,6 +71,7 @@ Edit the `plugins/MinecraftManhunt/config.yml` file with the following options:
   Key|Description|Type|Required?
   --|--|--|--
   headStartDuration | How long the hunters should get blindness and slowness when the match starts. | int | Required
+  startGameByHit | Whether to start the game by */start*, or by a runner hitting a hunter. | boolean | Optional, defaults to `false`
   compassEnabledInNether | Set to true to allow the compass to work in the nether. | boolean | Optional, defaults to `true`
   setRunnersToSpecOnDeath | Set to true to set runners' gamemodes to spectator when they die. | boolean | Optional, defaults to `true`
   sendUsageData | Set to true to send anonymized, aggregated usage data to help improve the plugin. | boolean | Optional, defaults to `false`
